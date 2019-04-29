@@ -1,3 +1,4 @@
+{% load static from staticfiles %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -15,10 +16,19 @@
       <div class="col-xs-18">
         <img src="https://cdn.pixabay.com/photo/2017/04/05/11/56/image-in-the-image-2204798_960_720.jpg" alt="" style="height:100%;width:100%;">
       </div>
-      <input type="file" accept="image/*" capture="camera" />
-      <input type="file" accept="image/*;capture=camera"/><br>
-      <button class="btn btn-primary btn-block" type="submit">Post</button>
+
+
     </div>
+
+    <form action="/image/" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="img" accept="static/*" capture="camera">
+      <button class="btn btn-primary btn-block" type="submit">Post</button>
+    </form>
+
+    <h1>{{category}}</h1>
+    <img src="{% static '{{name}}' %}">
+    <img src="{% static 'g.png'%}">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -21,6 +21,8 @@ urlpatterns = [
     path('login/',views.login,name="login"),
     path('student_home/',views.shome,name="shome"),
     path('worker_home/',views.whome,name="whome"),
+    path('image/',views.image,name="image"),
+    path('detect/',views.detect,name="detect"),
     #path('admint_home/',views.ahome,name="ahome"),
 
 ]
