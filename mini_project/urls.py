@@ -23,6 +23,9 @@ urlpatterns = [
     path('worker_home/',views.whome,name="whome"),
     path('image/',views.image,name="image"),
     path('detect/',views.detect,name="detect"),
+    path('confirm/',views.confirm,name="confirm"),
+    path('report/',views.report,name="report"),
+    path('profile/',views.profile,name="profile")
     #path('admint_home/',views.ahome,name="ahome"),
 
 ]

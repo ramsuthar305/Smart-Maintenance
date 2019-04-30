@@ -5,30 +5,90 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link href="https://fonts.googleapis.com/css?family=Rajdhani" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style media="screen">
+      .heading{
+        font-family: 'Rajdhani', sans-serif;
+        color:#8347f7;
+        font-size: 20px;
+        margin-bottom: 12%;
+      }
+      body{
+        background-color: black;
+      }
+      #desc{
+        border-color: #8347f7;
+        background:transparent;
+        color:#1a7eaf;
+      }
 
-    <title>Hello, world!</title>
+      .upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn1 {
+  border: none;
+  color: black;
+  background: linear-gradient(to bottom, #10aad2, #7950f4);
+  border-radius: 3px;
+  font-size: 16px;
+  width:19rem;
+  margin-top:7%;
+}
+
+.btn2 {
+  border: none;
+  color: black;
+  background: linear-gradient(to bottom,#7950f4,#9c31fe);
+
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+.logout{
+  border: none;
+  background: transparent;
+  float: left;
+}
+    </style>
+    <title>Student Home</title>
   </head>
-  <body>
-    <div class="container" style="text-align:center;">
-      <div class="col-xs-18">
-        <img src="https://cdn.pixabay.com/photo/2017/04/05/11/56/image-in-the-image-2204798_960_720.jpg" alt="" style="height:100%;width:100%;">
-      </div>
+  <body class="container-fluid  ">
+    <div class=" col-xs-18 border border-dark rounded" style="text-align:center; padding:2%; margin:0.5%; margin-top:5%;">
 
+        <div class="col-xs-18" style="padding-top:2%;">
+          <div class="col-xs-9">
+            <button class="logout"><img src="{% static 'log-out.png' %}" alt="logout" style="height:20px;"></button>
+          </div>
+          <div class="col-xs-9" style="text-align:right;">
+            <a href="#" style="color:#0cabcf; font-family: 'Rajdhani', sans-serif; padding-right:2%;"><img src="{% static 'man-user.png' %}" alt="logout" style="height:18px; padding-right:2%;">Profile</a>
+          </div>
+        </div>
+        <img src="{% static 'm.png'%}" style="height:80px; margin-top:15%; margin-bottom:5%;"alt="">
+        <p class="heading">Smart maintenance</p>
+        <form action="/image/" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <textarea class="form-control" placeholder="Description" id="desc" rows="6" style="marign-top:10%;"></textarea>
+          <input class="form-control" type="text" placeholder="Location" id="desc" style="margin-top:7%;">
+          <div class="upload-btn-wrapper">
+            <button class="btn btn-block btn1">Upload a photo</button>
+            <input type="file" name="img" accept="static/*" capture="camera" />
+          </div>
+          <a href="/confirm" class="btn btn-primary btn-block btn2" role="button" style="margin-top:7%">Post</a>
+        </form>
+            <h1>{{category}}</h1>
 
     </div>
-
-    <form action="/image/" method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      <input type="file" name="img" accept="static/*" capture="camera">
-      <button class="btn btn-primary btn-block" type="submit">Post</button>
-    </form>
-
-    <h1>{{category}}</h1>
-    <img src="{% static '{{name}}' %}">
-    <img src="{% static 'g.png'%}">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

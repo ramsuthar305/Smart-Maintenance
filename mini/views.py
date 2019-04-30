@@ -70,5 +70,14 @@ def camera(request):
     return render(request,'camera.html')
 
 def loc(request):
-
     return render(request,'location.html')
+
+def confirm(request):
+    return render(request,'confirm.html')
+
+def report(request):
+    return render(request,'report.html')
+
+
+def profile(request):
+    return render(request,'profile.html')

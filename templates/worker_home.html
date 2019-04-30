@@ -1,49 +1,122 @@
+{% load static from staticfiles %}
 <!doctype html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Rajdhani" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>worker_home</title>
+    <style media="screen">
+      body{
+        font-family: 'Rajdhani', sans-serif;
+      }
+      .card-text{
+        text-align: justify;
+        font-size: 15px;
+      }
+      .btn3{
+        color:white;
+      }
+      .heading{
+        font-family: 'Rajdhani', sans-serif;
+        color:#8347f7;
+        font-size: 18px;
+        margin-bottom: 1%;
+      }
+      .logout{
+        border: none;
+        background: transparent;
+        float: left;
+      }
+    </style>
   </head>
   <body>
-    <div class="container" style="text-align:center;">
-
-
-      <h1> Problem one</h1>
-      <div class="col-xs-18">
-        <img src="https://cdn.pixabay.com/photo/2017/04/05/11/56/image-in-the-image-2204798_960_720.jpg" alt="" style="height:100%;width:100%;">
+    <div class="container col-xs-18 bg-dark" style="text-align:center;">
+      <div class="col-xs-18" style="padding-top:2%;">
+        <div class="col-xs-6">
+          <button class="logout"><img src="{% static 'log-out.png' %}" alt="logout" style="height:20px;"></button>
+        </div>
+        <div class="col-xs-6" style="text-align:right;">
+          <a href="#" style="color:#0cabcf; font-family: 'Rajdhani', sans-serif; padding-right:2%;"><img src="{% static 'man-user.png' %}" alt="logout" style="height:18px; padding-right:2%;">Profile</a>
+        </div>
+        <div class="col-xs-6" style="text-align:center;">
+          <img src="{% static 'm.png'%}" style="height:35px; "alt="">
+          <p class="heading">Smart maintenance</p>
+        </div>
       </div>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15129.910489995533!2d73.91834625!3d18.5524937!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1556467316442!5m2!1sen!2sin" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
-      <button class="btn btn-danger btn-block" type="submit">Pass</button>
-      <button class="btn btn-success btn-block" type="submit">Handle</button>
-      <label for="input"> report</label>
-      <input type="file" accept="image/*;capture=camera"/><br>
 
-      <h1> Problem two</h1>
-      <div class="col-xs-18">
-        <img src="https://cdn.pixabay.com/photo/2017/04/05/11/56/image-in-the-image-2204798_960_720.jpg" alt="" style="height:100%;width:100%;">
+
+
+      <div class="card border-primary mb-3" style="max-width: 100%;background: transparent;">
+        <div class="card-header" style="background: transparent;"><img style="width:100%;"src="https://images.pexels.com/photos/670061/pexels-photo-670061.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"></img></div>
+        <div class="card-body text-primary" style="background: transparent;">
+          <h5 class="card-title">Description</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <hr><h5 class="card-title">Location <i class="fas fa-map-marked-alt"></i></h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <button class="btn btn3">Pass</button>
+          <a href="/report" role="button" class="btn btn3">Handle</a>
+          <button class="btn btn3">Wrong domain</button>
+        </div>
       </div>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15129.910489995533!2d73.91834625!3d18.5524937!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1556467316442!5m2!1sen!2sin" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
-      <button class="btn btn-danger btn-block" type="submit">Pass</button>
-      <button class="btn btn-success btn-block" type="submit">Handle</button>
-      <label for="input"> report</label>
-      <input type="file" accept="image/*;capture=camera"/><br>
 
-      <h1> Problem three</h1>
-      <div class="col-xs-18">
-        <img src="https://cdn.pixabay.com/photo/2017/04/05/11/56/image-in-the-image-2204798_960_720.jpg" alt="" style="height:100%;width:100%;">
+      <div class="card border-success mb-3" style="max-width: 100%;background: transparent;">
+        <div class="card-header" style="background: transparent;"><img style="width:100%;"src="https://images.pexels.com/photos/670061/pexels-photo-670061.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"></img></div>
+        <div class="card-body text-success" style="background: transparent;">
+          <h5 class="card-title">Description</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <hr><h5 class="card-title">Location <i class="fas fa-map-marked-alt"></i></h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <button class="btn btn3">Pass</button>
+          <button class="btn btn3">Handle</button>
+          <button class="btn btn3">Wrong domain</button>
+        </div>
       </div>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15129.910489995533!2d73.91834625!3d18.5524937!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1556467316442!5m2!1sen!2sin" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
-      <button class="btn btn-danger btn-block" type="submit">Pass</button>
-      <button class="btn btn-success btn-block" type="submit">Handle</button>
-      <label for="input"> report</label>
-      <input type="file" accept="image/*;capture=camera"/><br>
+      <div class="card border-danger mb-3" style="max-width: 100%;background: transparent;">
+        <div class="card-header" style="background: transparent;"><img style="width:100%;"src="https://images.pexels.com/photos/670061/pexels-photo-670061.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"></img></div>
+        <div class="card-body text-danger" style="background: transparent;">
+          <h5 class="card-title">Description</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <hr><h5 class="card-title">Location <i class="fas fa-map-marked-alt"></i></h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <button class="btn btn3">Pass</button>
+          <button class="btn btn3">Handle</button>
+          <button class="btn btn3">Wrong domain</button>
 
+
+        </div>
+      </div>
+      <div class="card border-warning mb-3" style="max-width: 100%;background: transparent;">
+        <div class="card-header" style="background: transparent;"><img style="width:100%;"src="https://images.pexels.com/photos/670061/pexels-photo-670061.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"></img></div>
+        <div class="card-body text-warning" style="background: transparent;">
+          <h5 class="card-title">Description</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <hr><h5 class="card-title">Location <i class="fas fa-map-marked-alt"></i></h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <button class="btn btn3">Pass</button>
+          <button class="btn btn3">Handle</button>
+          <button class="btn btn3">Wrong domain</button>
+        </div>
+      </div>
+      <div class="card border-info mb-3" style="max-width: 100%;background: transparent;">
+        <div class="card-header" style="background: transparent;"><img style="width:100%;"src="https://images.pexels.com/photos/670061/pexels-photo-670061.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"></img></div>
+        <div class="card-body text-info" style="background: transparent;">
+          <h5 class="card-title">Description</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <hr><h5 class="card-title">Location <i class="fas fa-map-marked-alt"></i></h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <button class="btn btn3">Pass</button>
+          <button class="btn btn3">Handle</button>
+          <button class="btn btn3">Wrong domain</button>
+        </div>
+      </div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
