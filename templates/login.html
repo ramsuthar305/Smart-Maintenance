@@ -1,47 +1,76 @@
+{% load static from staticfiles %}
 <!doctype html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link href="https://fonts.googleapis.com/css?family=Rajdhani" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Sign In</title>
+    <style media="screen">
+      .heading{
+        font-family: 'Rajdhani', sans-serif;
+        color:#8347f7;
+        font-size: 20px;
+        margin-bottom: 12%;
+      }
+      .btn1 {
+        border: none;
+        color: black;
+        background: linear-gradient(to bottom, #10aad2, #7950f4);
+        font-size: 16px;
+        margin-top:7%;
+      }
+
+      .btn2 {
+        border: none;
+        color: black;
+        background: linear-gradient(to bottom, #7950f4,#9c31fe);
+        font-size: 16px;
+        margin-top:7%;
+      }
+
+      .btn3 {
+        border: none;
+        color: black;
+        background: linear-gradient(to bottom,  #7950f4,  #10aad2);
+        font-size: 16px;
+        margin-top:7%;
+      }
+    </style>
   </head>
-  <body>
-
-
+  <body class="bg-dark">
     <div class="login col-xs-18">
-			<!-- Modal -->
-
-
-							  <div class="login_name">
-								MIT SOER
-							  </div>
-							<form  signin_form method="post" action="/login/">
-									{% csrf_token %}
-							  <div class="form-group">
-								<input type="email" class="form-control" name="email_id" id="signin_email" aria-describedby="emailHelp" placeholder="Phone number, username, or email">
-							  </div>
-							  <div class="form-group">
-								<input type="password" class="form-control" name="password" id="signin_pass" placeholder="Password">
-							  </div>
-							  <div class="form-group form-check">
-								<input type="checkbox" class="form-check-input" id="remember_me">
-								<label class="form-check-label" for="remember_me">Remember me</label>
-							  </div>
-							  <input type="Submit" class="btn btn-danger btn_login" value="Submit" name="login">
-								<div class="or">or</div>
-								<div class="forget"><a class="forget" href="#">Forget password?</a></div>
-                <div class="btn_signup" style="padding-bottom:3%;"><a role="button" href="/registration" class="btn btn-danger ">Sign up </a></div>
-                <div class="btn_signup" style="padding-bottom:3%;"><a role="button" href="/Cordinator_registration" class="btn btn-danger ">Sign up as Cordinator</a></div>
-              </form>
-
-						</div>
-
-
+      <div class="col-xs-18" style="text-align:center;">
+        <img src="{% static 'm.png'%}" style="height:80px; margin-top:15%; margin-bottom:5%;"alt="">
+        <p class="heading"><strong>Smart Maintenance</strong></p>
+      </div>
+        <div class="col-xs-18">
+          <form  signin_form method="post" action="/login/">
+              {% csrf_token %}
+            <div class="container form-group">
+              <input type="email" class="form-control" name="email_id" id="signin_email" aria-describedby="emailHelp" placeholder="Phone number, username, or email" style="background:transparent; border-color:#10aad2;">
+            </div>
+            <div class="container form-group">
+            <input type="password" class="form-control" name="password" id="signin_pass" placeholder="Password" style="background:transparent; border-color:#10aad2;">
+            </div>
+            <div class="container form-group form-check" style="padding-left:10%;">
+              <input type="checkbox" class="form-check-input" id="remember_me">
+              <label class="form-check-label" for="remember_me">Remember me</label>
+            </div>
+            <div class="container" style="text-align:center;">
+              <button class="btn btn-block btn1">Login</button>
+              <div class="or">or</div>
+              <div class="forget" style="text-align:center;"><a class="forget" href="#">Forget password?</a></div>
+              <div class="btn_signup" style="padding-bottom:3%;"><a role="button" href="/register" class="btn btn-block btn2 ">Sign up </a></div>
+              <div class="btn_signup" style="padding-bottom:3%;"><a role="button" href="/Cordinator_registration" class="btn btn-block btn3 ">Sign up as Cordinator</a></div>
+            </div>
+          </form>
+        </div>
+      </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

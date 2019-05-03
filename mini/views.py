@@ -1,23 +1,75 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from .models import REGISTER, LOGIN_DETAILS, PROBLEMS
 
+info = {}
 # Create your views here.
 def login(request):
+    global info
+    if request.method=='POST':
+        print("in login")
+        data=request.POST
+        em_id = data['email_id']
+        ps = data['password']
+        r = REGISTER.objects.filter(email=em_id,password=ps)
+        print(r)
+        login_details = LOGIN_DETAILS(email_id=data['email_id'],password=data['password'])
+        login_details.save()
+        if(len(r)>0):
+            flag=1
+            request.session["login"] = True
+            request.session['u_id'] = r[0].user_id
+            request.session['u_name'] = r[0].first_name
+            request.session['u_email'] = r[0].email
+            request.session['u_password'] = r[0].password
+            print(request.session)
+            if(request.session['u_email']==em_id and request.session['u_password']==ps):
+                info = {'user_id':request.session['u_id'], 'user_name':request.session['u_name'], 'email_id':request.session['u_email'], 'password':request.session['u_password']}
+
+        return redirect('/student_home/')
+
     return render(request,'login.html')
 
+def logout(request):
+    global info
+    info = {}
+    request.session["user_name"] = False
+    request.session["login"] = False
+    return redirect('/login/')
+
+def register(request):
+    context = {}
+    if request.method=='POST':
+        print("in here")
+        data = request.POST
+        r = REGISTER(first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],email=data['email'],password=data['password'])
+        r.save()
+        context = {'display':"Registered Successfully"}
+    return render(request,'register.html',context)
 
 def shome(request):
-    return render(request,'student_home.html')
+    global info
+    temp = ""
+    if len(info)>0:
+        temp = info['user_name']
+    context = {'name':temp}
+
+
+
+
+    return render(request,'student_home.html',context)
 
 def whome(request):
     return render(request,'worker_home.html')
 
 from django.http import HttpResponse
 from .models import maintenance
-from fastai import *
-from fastai.vision import *
+#from fastai import *
+#from fastai.vision import *
 
 
 #classifier
+
 def detect(request):
     lst=[]
     path=Path('last2/')
@@ -81,3 +133,6 @@ def report(request):
 
 def profile(request):
     return render(request,'profile.html')
+
+def worker_profile(request):
+    return render(request,'worker_profile.html')

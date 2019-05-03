@@ -19,13 +19,16 @@ from mini import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/',views.login,name="login"),
+    path('logout/',views.logout,name="logout"),
+    path('register/',views.register,name="register"),
     path('student_home/',views.shome,name="shome"),
     path('worker_home/',views.whome,name="whome"),
     path('image/',views.image,name="image"),
     path('detect/',views.detect,name="detect"),
     path('confirm/',views.confirm,name="confirm"),
     path('report/',views.report,name="report"),
-    path('profile/',views.profile,name="profile")
+    path('profile/',views.profile,name="profile"),
+    path('worker_profile/',views.worker_profile,name="worker_profile"),
     #path('admint_home/',views.ahome,name="ahome"),
 
 ]
