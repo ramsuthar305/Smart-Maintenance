@@ -48,21 +48,24 @@
         </div>
         <div class="col-xs-6" style="text-align:center;">
           <img src="{% static 'm.png'%}" style="height:35px; "alt="">
-          <p class="heading">Smart maintenance</p>
+          <p class="heading">Smart Maintenance</p>
         </div>
       </div>
 
 
 
       <div class="card border-primary mb-3" style="max-width: 100%;background: transparent;">
-        <div class="card-header" style="background: transparent;"><img style="width:100%;"src="https://images.pexels.com/photos/670061/pexels-photo-670061.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"></img></div>
+        <div class="card-header" style="background: transparent;"><img style="width:100%;"src="/{{ pic }}"></img></div>
         <div class="card-body text-primary" style="background: transparent;">
           <h5 class="card-title">Description</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <p class="card-text">{{ description }}</p>
           <hr><h5 class="card-title">Location <i class="fas fa-map-marked-alt"></i></h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <button class="btn btn3 btn-block">confirm</button>
-
+          <p class="card-text">{{ location }}</p>
+          <form action="/confirm/" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+          <input type="submit" value="Confirm" name="submit" class="btn btn3 btn-block">
+            </form>
+          
         </div>
       </div>
     </div>

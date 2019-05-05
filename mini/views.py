@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import REGISTER, LOGIN_DETAILS, PROBLEMS
+from .models import REGISTER, LOGIN_DETAILS, PROBLEMS, TEMP_PROBLEMS
 
 info = {}
+prob={}
 # Create your views here.
 def login(request):
     global info
@@ -47,29 +48,59 @@ def register(request):
         context = {'display':"Registered Successfully"}
     return render(request,'register.html',context)
 
+
 def shome(request):
     global info
+    global prob
     temp = ""
     if len(info)>0:
         temp = info['user_name']
     context = {'name':temp}
-
-
+    if request.method=="POST" and request.FILES['image']:
+        pic=request.FILES['image']
+        data=request.POST
+        p = TEMP_PROBLEMS(description=data['description'],location=data['location'],image=pic)
+        p.save()
+        print("saved student problem")
+        temp = TEMP_PROBLEMS.objects.all()
+        l = len(temp)
+        pic1 = temp[l-1].image
+        print(pic1)
+        prob = {'description':data['description'],'location':data['location'],'pic':pic1}
+        return redirect("/confirm/")
 
 
     return render(request,'student_home.html',context)
 
+def confirm(request):
+    global prob
+    if request.method=="POST":
+        p = PROBLEMS(description=prob['description'],location=prob['location'],image=prob['pic'])
+        p.save()
+        print("confirm")
+        return redirect("/student_home/")
+    return render(request,'confirm.html',prob)
+
+
+
+
 def whome(request):
-    return render(request,'worker_home.html')
+    p = PROBLEMS.objects.all()
+    worker_context = {'problems':p}
+    print(p)
+    return render(request,'worker_home.html',worker_context)
+
+
+
+
 
 from django.http import HttpResponse
 from .models import maintenance
 #from fastai import *
 #from fastai.vision import *
 
-
+'''
 #classifier
-
 def detect(request):
     lst=[]
     path=Path('last2/')
@@ -107,7 +138,7 @@ def detect(request):
 
 def classify(request):
     return render(request,'student_home.html',{})
-
+'''
 def image(request):
     if request.method=='POST' and request.FILES['img']:
         pic=request.FILES['img']
@@ -124,8 +155,6 @@ def camera(request):
 def loc(request):
     return render(request,'location.html')
 
-def confirm(request):
-    return render(request,'confirm.html')
 
 def report(request):
     return render(request,'report.html')

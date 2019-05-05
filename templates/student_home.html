@@ -76,13 +76,13 @@
         </div>
         <img src="{% static 'm.png'%}" style="height:80px; margin-top:15%; margin-bottom:5%;"alt="">
         <p class="heading">Smart Maintenance</p>
-        <form action="/confirm/" method="post" enctype="multipart/form-data">
+        <form action="/student_home/" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           <textarea class="form-control" name="description" placeholder="Description" id="desc" rows="6" style="marign-top:10%;"></textarea>
           <input class="form-control" name="location" type="text" placeholder="Location" id="desc" style="margin-top:7%;">
           <div class="upload-btn-wrapper">
             <button class="btn btn-block btn1">Upload a photo</button>
-            <input type="file" name="image" accept="static/*" capture="camera" />
+            <input type="file" name="image" accept="static/uploads/*" capture="camera" />
           </div>
           <input type="submit" name="submit" value ="Post" class="btn btn-primary btn-block btn2" role="button" style="margin-top:7%">
         </form>
