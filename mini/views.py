@@ -136,3 +136,6 @@ def profile(request):
 
 def worker_profile(request):
     return render(request,'worker_profile.html')
+
+def admin(request):
+    return render(request,'admin.html')

@@ -29,6 +29,7 @@ urlpatterns = [
     path('report/',views.report,name="report"),
     path('profile/',views.profile,name="profile"),
     path('worker_profile/',views.worker_profile,name="worker_profile"),
+    path('',views.admin,name="admin"),
     #path('admint_home/',views.ahome,name="ahome"),
 
 ]
