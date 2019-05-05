@@ -53,70 +53,22 @@
       </div>
 
 
-
+      {% for i in problems %}
       <div class="card border-primary mb-3" style="max-width: 100%;background: transparent;">
-        <div class="card-header" style="background: transparent;"><img style="width:100%;"src="https://images.pexels.com/photos/670061/pexels-photo-670061.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"></img></div>
+        <div class="card-header" style="background: transparent;"><img style="width:100%;"src="/{{ i.image }}"></img></div>
         <div class="card-body text-primary" style="background: transparent;">
           <h5 class="card-title">Description</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <p class="card-text">{{ i.description }}</p>
           <hr><h5 class="card-title">Location <i class="fas fa-map-marked-alt"></i></h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <p class="card-text">{{ i.location }}</p>
           <button class="btn btn3">Pass</button>
           <a href="/report" role="button" class="btn btn3">Handle</a>
           <button class="btn btn3">Wrong domain</button>
         </div>
       </div>
+      {% endfor %}
 
-      <div class="card border-success mb-3" style="max-width: 100%;background: transparent;">
-        <div class="card-header" style="background: transparent;"><img style="width:100%;"src="https://images.pexels.com/photos/670061/pexels-photo-670061.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"></img></div>
-        <div class="card-body text-success" style="background: transparent;">
-          <h5 class="card-title">Description</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <hr><h5 class="card-title">Location <i class="fas fa-map-marked-alt"></i></h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <button class="btn btn3">Pass</button>
-          <button class="btn btn3">Handle</button>
-          <button class="btn btn3">Wrong domain</button>
-        </div>
-      </div>
-      <div class="card border-danger mb-3" style="max-width: 100%;background: transparent;">
-        <div class="card-header" style="background: transparent;"><img style="width:100%;"src="https://images.pexels.com/photos/670061/pexels-photo-670061.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"></img></div>
-        <div class="card-body text-danger" style="background: transparent;">
-          <h5 class="card-title">Description</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <hr><h5 class="card-title">Location <i class="fas fa-map-marked-alt"></i></h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <button class="btn btn3">Pass</button>
-          <button class="btn btn3">Handle</button>
-          <button class="btn btn3">Wrong domain</button>
-
-
-        </div>
-      </div>
-      <div class="card border-warning mb-3" style="max-width: 100%;background: transparent;">
-        <div class="card-header" style="background: transparent;"><img style="width:100%;"src="https://images.pexels.com/photos/670061/pexels-photo-670061.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"></img></div>
-        <div class="card-body text-warning" style="background: transparent;">
-          <h5 class="card-title">Description</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <hr><h5 class="card-title">Location <i class="fas fa-map-marked-alt"></i></h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <button class="btn btn3">Pass</button>
-          <button class="btn btn3">Handle</button>
-          <button class="btn btn3">Wrong domain</button>
-        </div>
-      </div>
-      <div class="card border-info mb-3" style="max-width: 100%;background: transparent;">
-        <div class="card-header" style="background: transparent;"><img style="width:100%;"src="https://images.pexels.com/photos/670061/pexels-photo-670061.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"></img></div>
-        <div class="card-body text-info" style="background: transparent;">
-          <h5 class="card-title">Description</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <hr><h5 class="card-title">Location <i class="fas fa-map-marked-alt"></i></h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <button class="btn btn3">Pass</button>
-          <button class="btn btn3">Handle</button>
-          <button class="btn btn3">Wrong domain</button>
-        </div>
-      </div>
+      
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

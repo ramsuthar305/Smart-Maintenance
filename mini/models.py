@@ -24,3 +24,9 @@ class PROBLEMS(models.Model):
     location = models.CharField(max_length = 1000)
     image=models.ImageField(upload_to='static/uploads/')
     status=models.CharField(max_length=100)
+
+class TEMP_PROBLEMS(models.Model):
+    description = models.CharField(max_length=1000)
+    location = models.CharField(max_length = 1000)
+    image=models.ImageField(upload_to='static/uploads/')
+    status=models.CharField(max_length=100)
