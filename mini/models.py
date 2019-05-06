@@ -6,8 +6,29 @@ from django.db import models
 class maintenance(models.Model):
     image=models.ImageField(upload_to='static/')
 
-class REGISTER(models.Model):
+class STUDENT_REGISTER(models.Model):
     user_id = models.AutoField(primary_key=True)
+    user_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    institute_name = models.CharField(max_length=100)
+    department = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+
+class WORKER_REGISTER(models.Model):
+    user_id = models.AutoField(primary_key=True)
+    user_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    institute_name = models.CharField(max_length=100)
+    department = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+
+class REGISTRATIONS(models.Model):
+    user_id = models.AutoField(primary_key=True)
+    user_name = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     institute_name = models.CharField(max_length=100)

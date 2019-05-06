@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import REGISTER, LOGIN_DETAILS, PROBLEMS, TEMP_PROBLEMS
+from .models import STUDENT_REGISTER, WORKER_REGISTER, REGISTRATIONS, LOGIN_DETAILS, PROBLEMS, TEMP_PROBLEMS
+
 
 info = {}
 prob={}
@@ -38,16 +39,35 @@ def logout(request):
     request.session["login"] = False
     return redirect('/login/')
 
-def register(request):
+def student_register(request):
     context = {}
     if request.method=='POST':
         print("in here")
         data = request.POST
-        r = REGISTER(first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],email=data['email'],password=data['password'])
+        obj = STUDENT_REGISTER.objects.all()
+        scount = len(obj)
+        username = "MITST"+"00"+str(scount+1)
+        r = STUDENT_REGISTER(user_name=username,first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],email=data['email'],password=data['password'])
         r.save()
+        common = REGISTRATIONS(user_name=username,first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],email=data['email'],password=data['password'])
+        common.save()
         context = {'display':"Registered Successfully"}
-    return render(request,'register.html',context)
+    return render(request,'student_register.html',context)
 
+def worker_register(request):
+    context = {}
+    if request.method=='POST':
+        print("in here")
+        data = request.POST
+        obj = WORKER_REGISTER.objects.all()
+        scount = len(obj)
+        username = "MITWR"+"00"+str(wcount+1)
+        r = WORKER_REGISTER(user_name=username,first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],email=data['email'],password=data['password'])
+        r.save()
+        common = REGISTRATIONS(user_name=username,first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],email=data['email'],password=data['password'])
+        common.save()
+        context = {'display':"Registered Successfully"}
+    return render(request,'worker_register.html',context)
 
 def shome(request):
     global info
