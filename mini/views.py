@@ -13,7 +13,7 @@ def login(request):
         data=request.POST
         em_id = data['email_id']
         ps = data['password']
-        r = REGISTER.objects.filter(email=em_id,password=ps)
+        r = REGISTRATIONS.objects.filter(email=em_id,password=ps)
         print(r)
         login_details = LOGIN_DETAILS(email_id=data['email_id'],password=data['password'])
         login_details.save()
