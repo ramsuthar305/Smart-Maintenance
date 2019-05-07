@@ -40,11 +40,13 @@ class LOGIN_DETAILS(models.Model):
     email_id=models.CharField(max_length=100)
     password=models.CharField(max_length=100)
 
-class PROBLEMS(models.Model):
+class ALL_PROBLEMS(models.Model):
+    problem_id = models.AutoField(primary_key=True)
     description = models.CharField(max_length=1000)
     location = models.CharField(max_length = 1000)
     image=models.ImageField(upload_to='static/uploads/')
     status=models.CharField(max_length=100)
+    worker_name = models.CharField(max_length=100)
 
 class TEMP_PROBLEMS(models.Model):
     description = models.CharField(max_length=1000)

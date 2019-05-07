@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import STUDENT_REGISTER, WORKER_REGISTER, REGISTRATIONS, LOGIN_DETAILS, PROBLEMS, TEMP_PROBLEMS
+from .models import STUDENT_REGISTER, WORKER_REGISTER, REGISTRATIONS, LOGIN_DETAILS, ALL_PROBLEMS, TEMP_PROBLEMS
 
 
 info = {}
@@ -14,7 +14,6 @@ def login(request):
         em_id = data['email_id']
         ps = data['password']
         r = REGISTRATIONS.objects.filter(email=em_id,password=ps)
-        print(r)
         login_details = LOGIN_DETAILS(email_id=data['email_id'],password=data['password'])
         login_details.save()
         if(len(r)>0):
@@ -27,8 +26,12 @@ def login(request):
             print(request.session)
             if(request.session['u_email']==em_id and request.session['u_password']==ps):
                 info = {'user_id':request.session['u_id'], 'user_name':request.session['u_name'], 'email_id':request.session['u_email'], 'password':request.session['u_password']}
+        
+            if(r[0].user_name[3:5]=='ST'):
+                return redirect('/student_home/')
 
-        return redirect('/student_home/')
+            if(r[0].user_name[3:5]=='WR'):
+                return redirect('/worker_home/')
 
     return render(request,'login.html')
 
@@ -60,7 +63,7 @@ def worker_register(request):
         print("in here")
         data = request.POST
         obj = WORKER_REGISTER.objects.all()
-        scount = len(obj)
+        wcount = len(obj)
         username = "MITWR"+"00"+str(wcount+1)
         r = WORKER_REGISTER(user_name=username,first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],email=data['email'],password=data['password'])
         r.save()
@@ -72,10 +75,10 @@ def worker_register(request):
 def shome(request):
     global info
     global prob
-    temp = ""
+    temp1 = ""
     if len(info)>0:
-        temp = info['user_name']
-    context = {'name':temp}
+        temp1 = info['user_name']
+    context = {'name':temp1}
     if request.method=="POST" and request.FILES['image']:
         pic=request.FILES['image']
         data=request.POST
@@ -86,17 +89,20 @@ def shome(request):
         l = len(temp)
         pic1 = temp[l-1].image
         print(pic1)
-        prob = {'description':data['description'],'location':data['location'],'pic':pic1}
+        prob = {'name':temp1,'description':data['description'],'location':data['location'],'pic':pic1}
         return redirect("/confirm/")
 
 
     return render(request,'student_home.html',context)
 
 def confirm(request):
+    global info
     global prob
+
     if request.method=="POST":
-        p = PROBLEMS(description=prob['description'],location=prob['location'],image=prob['pic'])
+        p = ALL_PROBLEMS(description=prob['description'],location=prob['location'],image=prob['pic'],status=0)
         p.save()
+
         print("confirm")
         return redirect("/student_home/")
     return render(request,'confirm.html',prob)
@@ -105,12 +111,44 @@ def confirm(request):
 
 
 def whome(request):
-    p = PROBLEMS.objects.all()
-    worker_context = {'problems':p}
-    print(p)
-    return render(request,'worker_home.html',worker_context)
+    global info
+    global prob
+    temp = ""
+    flag = 0
+    pending = []
+    if len(info)>0:
+        temp = info['user_name']
+    p = ALL_PROBLEMS.objects.all()
+    for i in p:
+        if i.status=='0':
+            pending.append(i) 
+    worker_context = {'name':temp,'problems':pending}
 
+    obj = ALL_PROBLEMS.objects.filter(worker_name=temp)
+    if(len(obj)>0):
+        for i in obj:
+            print(i.status)
+            if i.status=='2':
+                return render(request,'report.html')
+    else:
+        return render(request,'worker_home.html',worker_context)
 
+def handle(request,problem_id):
+    global info
+    temp = {}
+    status = 2
+    p = ALL_PROBLEMS.objects.get(pk=problem_id)
+    p.status=status
+    p.worker_name = info['user_name']
+    p.save()
+    print("in handle")
+    print(problem_id)
+    return render(request,"report.html")
+
+def pass_prob(request,problem_id):
+    print("in pass")
+    print(problem_id)
+    return HttpResponse("DONE")
 
 
 
@@ -159,6 +197,7 @@ def detect(request):
 def classify(request):
     return render(request,'student_home.html',{})
 '''
+
 def image(request):
     if request.method=='POST' and request.FILES['img']:
         pic=request.FILES['img']

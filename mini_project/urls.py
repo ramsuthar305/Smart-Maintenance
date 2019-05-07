@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
 from mini import views
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +25,8 @@ urlpatterns = [
     path('worker_register/',views.worker_register,name="worker_register"),
     path('student_home/',views.shome,name="shome"),
     path('worker_home/',views.whome,name="whome"),
+    url(r'^handle/(?P<problem_id>[0-9]+)/$',views.handle,name="handle"),
+    url(r'^pass/(?P<problem_id>[0-9]+)/$',views.pass_prob,name="pass"),
     path('image/',views.image,name="image"),
     #path('detect/',views.detect,name="detect"),
     path('confirm/',views.confirm,name="confirm"),
