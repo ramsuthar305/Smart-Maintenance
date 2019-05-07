@@ -229,6 +229,13 @@ def admin(request):
     incomplete_garbage=0
     complete_pothole=0
     incomplete_pothole=0
+    date=''
+    pdays=[]
+    gdays=[]
+    pd={}
+    gd={}
+    gcount=pcount=0
+    rang=[]
     for i in object:
         print("0"*5,i.problem_type)
         if i.problem_type=="pothole":
@@ -237,6 +244,9 @@ def admin(request):
                 incomplete_pothole+=1
             if i.status=="1":
                 complete_pothole+=1
+            date=datetime.datetime.now().strftime("%m")
+            if date==i.date[3:5]:
+                pdays.append(int(i.date[0:2]))
             print("civil problem detected")
 
         if i.problem_type=="garbage":
@@ -245,7 +255,20 @@ def admin(request):
                 incomplete_garbage+=1
             if i.status=="1":
                 complete_garbage+=1
+            if date==i.date[3:5]:
+                gdays.append(int(i.date[0:2]))
             print("garbage problem detected")
+    for m in range(31):
+        pcount=pdays.count(m)
+        gcount=gdays.count(m)
+        pd[m]=pcount
+        gd[m]=gcount
+        print("pd",m,": ",pd[m],"\n")
+        print("gd",m,": ",gd[m],"\n")    
+        if m!=31:
+            rang.append(m)
+    print("pd----------------:",pd)
+    print("gd----------------:",gd)
     print("total counts:\ngarbage:",garbage,"\npothole:",pothole)
     context={
     'pothole':pothole,
@@ -253,6 +276,9 @@ def admin(request):
     'incomplete_pothole':incomplete_pothole,
     'complete_pothole':complete_pothole,
     'incomplete_garbage':incomplete_garbage,
-    'complete_garbage':complete_garbage
+    'complete_garbage':complete_garbage,
+    'pd':pd,
+    'gd':gd,
+    'rang':rang
     }
     return render(request,'admin.html',context)
