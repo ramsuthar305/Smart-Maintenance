@@ -47,6 +47,8 @@ class ALL_PROBLEMS(models.Model):
     image=models.ImageField(upload_to='static/uploads/')
     status=models.CharField(max_length=100)
     worker_name = models.CharField(max_length=100)
+    problem_type = models.CharField(max_length=20)
+    date = models.CharField(max_length=100)
 
 class TEMP_PROBLEMS(models.Model):
     description = models.CharField(max_length=1000)

@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import STUDENT_REGISTER, WORKER_REGISTER, REGISTRATIONS, LOGIN_DETAILS, ALL_PROBLEMS, TEMP_PROBLEMS
-
+from django.http import HttpResponse
+from .models import maintenance
+from fastai import *
+from fastai.vision import *
+import datetime
 
 info = {}
 prob={}
@@ -26,7 +30,7 @@ def login(request):
             print(request.session)
             if(request.session['u_email']==em_id and request.session['u_password']==ps):
                 info = {'user_id':request.session['u_id'], 'user_name':request.session['u_name'], 'email_id':request.session['u_email'], 'password':request.session['u_password']}
-        
+
             if(r[0].user_name[3:5]=='ST'):
                 return redirect('/student_home/')
 
@@ -91,8 +95,6 @@ def shome(request):
         print(pic1)
         prob = {'name':temp1,'description':data['description'],'location':data['location'],'pic':pic1}
         return redirect("/confirm/")
-
-
     return render(request,'student_home.html',context)
 
 def confirm(request):
@@ -100,9 +102,9 @@ def confirm(request):
     global prob
 
     if request.method=="POST":
-        p = ALL_PROBLEMS(description=prob['description'],location=prob['location'],image=prob['pic'],status=0)
+        print(prob['pic'])
+        p = ALL_PROBLEMS(description=prob['description'],location=prob['location'],image=prob['pic'],status=0,problem_type=detect(request),date=datetime.datetime.now().strftime("%d-%m-%Y"))
         p.save()
-
         print("confirm")
         return redirect("/student_home/")
     return render(request,'confirm.html',prob)
@@ -121,7 +123,7 @@ def whome(request):
     p = ALL_PROBLEMS.objects.all()
     for i in p:
         if i.status=='0':
-            pending.append(i) 
+            pending.append(i)
     worker_context = {'name':temp,'problems':pending}
 
     obj = ALL_PROBLEMS.objects.filter(worker_name=temp)
@@ -152,14 +154,13 @@ def pass_prob(request,problem_id):
 
 
 
-from django.http import HttpResponse
-from .models import maintenance
-#from fastai import *
-#from fastai.vision import *
 
-'''
+
+
 #classifier
 def detect(request):
+    global prob
+    print(str(prob['pic']))
     lst=[]
     path=Path('last2/')
     classes=['garbage','pothole']
@@ -169,29 +170,25 @@ def detect(request):
     learn.load('stage-1')
     learn.unfreeze()
     test_path=Path('static/')
-    obj1=maintenance.objects.last()
-    name=obj1.image.url
-    nam=name
-    nam=nam[7:]
-    print('*'*10,nam,'*'*10)
-    name='C:/Users/LENOVO/Documents/mini_project/'+name
+    #obj1=maintenance.objects.last()
+    #name=obj1.image.url
+    #nam=name
+    #nam=nam[7:]
+    #print('*'*10,nam,'*'*10)
+    name='C:/Users/LENOVO/Documents/mini_project/'+str(prob['pic'])
     print('*'*50,name,'*'*50)
     test_image=open_image(name)
-    for i in range(6):
+    for i in range(5):
         data2 = ImageDataBunch.single_from_classes(path, classes, ds_tfms=get_transforms(), size=240).normalize(imagenet_stats)
         learn = cnn_learner(data2, models.resnet34)
         pred_class,pred_idx,outputs = learn.predict(test_image)
         lst.append(pred_class)
     category=max(lst,key=lst.count)
     print('*\n'*5,category,'list=',lst,'\n*'*5)
-    context={
-        'category':category,
-        'name':nam
-    }
-    return context
+    return str(category)
     #return render(request,'student_home.html',context)
 
-
+'''
 # Create your views here.
 
 def classify(request):
@@ -226,4 +223,36 @@ def worker_profile(request):
     return render(request,'worker_profile.html')
 
 def admin(request):
-    return render(request,'admin.html')
+    object=ALL_PROBLEMS.objects.all()
+    garbage=pothole=0
+    complete_garbage=0
+    incomplete_garbage=0
+    complete_pothole=0
+    incomplete_pothole=0
+    for i in object:
+        print("0"*5,i.problem_type)
+        if i.problem_type=="pothole":
+            pothole+=1
+            if i.status=="0":
+                incomplete_pothole+=1
+            if i.status=="1":
+                complete_pothole+=1
+            print("civil problem detected")
+
+        if i.problem_type=="garbage":
+            garbage+=1
+            if i.status=="0":
+                incomplete_garbage+=1
+            if i.status=="1":
+                complete_garbage+=1
+            print("garbage problem detected")
+    print("total counts:\ngarbage:",garbage,"\npothole:",pothole)
+    context={
+    'pothole':pothole,
+    'garbage':garbage,
+    'incomplete_pothole':incomplete_pothole,
+    'complete_pothole':complete_pothole,
+    'incomplete_garbage':incomplete_garbage,
+    'complete_garbage':complete_garbage
+    }
+    return render(request,'admin.html',context)

@@ -125,8 +125,8 @@
                 function drawChart() {
                   var data = google.visualization.arrayToDataTable([
                     ['Problems', ''],
-                    ['Civil', 1],
-                    ['Garbage',1]
+                    ['Civil', {{pothole}}],
+                    ['Garbage',{{garbage}}]
                   ]);
 
                   var options = {
@@ -144,10 +144,10 @@
                 function drawChart() {
                   var data = google.visualization.arrayToDataTable([
                     ['Problems', ''],
-                    ['Civil solved', 1],
-                    ['Garbage solved',1],
-                    ['Civil pending', 1],
-                    ['Garbage pending',1]
+                    ['Civil solved', complete_pothole],
+                    ['Garbage solved',complete_garbage],
+                    ['Civil pending', incomplete_pothole],
+                    ['Garbage pending',incomplete_garbage]
                   ]);
 
                   var options = {
