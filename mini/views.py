@@ -213,12 +213,6 @@ def profile(request):
                 context['user_name']=some
 
         return render(request,"profile.html",context)
-
-
-
-
-
-
     return render(request,"profile.html",{})
 
 def s_change(request):
