@@ -34,6 +34,18 @@ urlpatterns = [
     path('profile/',views.profile,name="profile"),
     path('worker_profile/',views.worker_profile,name="worker_profile"),
     path('',views.admin,name="admin"),
+    path('block/',views.block,name="block"),
+    path('block_id/',views.block_id,name="block_id"),
+    path('rem/',views.rem,name="rem"),
+    path('rem_id/',views.rem_id,name="rem_id"),
+    path('unblock/',views.unblock,name="block"),
+    path('unblock_id/',views.unblock_id,name="unblock_id"),
+    path('edit/',views.edit,name="edit"),
+    path('s_change/',views.s_change,name="s_change"),
+    path('unblock_id/',views.unblock_id,name="unblock_id"),
+
+
+
     #path('admint_home/',views.ahome,name="ahome"),
 
 ]

@@ -94,16 +94,20 @@
               <hr style="background-color:#ffc107;">
               <div class="row col-md-12 chart" style="text-align:center;">
                 <div class="col-md-4 chart">
-                  <a href="#"><img src="{%static 'management.png' %}" alt=""><br>
+                  <a href="/edit"><img src="{%static 'management.png' %}" alt=""><br>
                   Edit User info</a>
                 </div>
                 <div class="col-md-4">
-                  <a href="#"><img src="{%static 'user.png' %}" alt=""><br>
+                  <a href="/block"><img src="{%static 'user.png' %}" alt=""><br>
                   Block Users</a>
                 </div>
                 <div class="col-md-4">
-                  <a href="#"><img src="{%static 'remove-friend.png' %}" alt=""><br>
+                  <a href="/rem"><img src="{%static 'remove-friend.png' %}" alt=""><br>
                   Remove users</a>
+                </div>
+                <div class="col-md-4">
+                  <a href="/unblock"><img src="{%static 'remove-friend.png' %}" alt=""><br>
+                  Unblock users</a>
                 </div>
               </div>
             </div>
@@ -144,10 +148,10 @@
                 function drawChart() {
                   var data = google.visualization.arrayToDataTable([
                     ['Problems', ''],
-                    ['Civil solved', complete_pothole],
-                    ['Garbage solved',complete_garbage],
-                    ['Civil pending', incomplete_pothole],
-                    ['Garbage pending',incomplete_garbage]
+                    ['Civil solved', {{complete_pothole}}],
+                    ['Garbage solved',{{complete_garbage}}],
+                    ['Civil pending', {{incomplete_pothole}}],
+                    ['Garbage pending',{{incomplete_garbage}}]
                   ]);
 
                   var options = {
@@ -166,10 +170,10 @@
                 function drawChart() {
                   var data = google.visualization.arrayToDataTable([
                     ['Day', 'Civil', 'Garbage'],
-                    {% for i in rang %}
-                      ['{{i}}',{{pd[i]}},{{gd[i]}}],
+                    {% for (i,j,k) in rangepdgd %}
+                      ['{{i}}',{{j}},{{k}}],
                     {% endfor %}
-                      ['{{i+1}}',{{pd[i+1]}},{{gd[i+1]}}]
+                      ['{{0}}',{{0}},{{0}}]
                   ]);
 
                   var options = {

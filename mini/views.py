@@ -6,7 +6,8 @@ from .models import maintenance
 from fastai import *
 from fastai.vision import *
 import datetime
-
+tempo = REGISTRATIONS.objects.all()
+global var
 info = {}
 prob={}
 # Create your views here.
@@ -17,25 +18,29 @@ def login(request):
         data=request.POST
         em_id = data['email_id']
         ps = data['password']
-        r = REGISTRATIONS.objects.filter(email=em_id,password=ps)
-        login_details = LOGIN_DETAILS(email_id=data['email_id'],password=data['password'])
-        login_details.save()
-        if(len(r)>0):
-            flag=1
-            request.session["login"] = True
-            request.session['u_id'] = r[0].user_id
-            request.session['u_name'] = r[0].first_name
-            request.session['u_email'] = r[0].email
-            request.session['u_password'] = r[0].password
-            print(request.session)
-            if(request.session['u_email']==em_id and request.session['u_password']==ps):
-                info = {'user_id':request.session['u_id'], 'user_name':request.session['u_name'], 'email_id':request.session['u_email'], 'password':request.session['u_password']}
+        var = tempo.filter(email=em_id,password=ps)
+        id=len(var)
+        if id!=0:
+            print(var[id-1].status)
+            status= var[id-1].status
+            login_details = LOGIN_DETAILS(email_id=data['email_id'],password=data['password'])
+            login_details.save()
+            if(id>0 and status=="available"):
+                flag=1
+                request.session["login"] = True
+                request.session['u_id'] = var[0].user_id
+                request.session['u_name'] = var[0].first_name
+                request.session['u_email'] = var[0].email
+                request.session['u_password'] = var[0].password
+                print(request.session)
+                if(request.session['u_email']==em_id and request.session['u_password']==ps):
+                    info = {'user_id':request.session['u_id'], 'user_name':request.session['u_name'], 'email_id':request.session['u_email'], 'password':request.session['u_password']}
 
-            if(r[0].user_name[3:5]=='ST'):
-                return redirect('/student_home/')
+                if(var[0].user_name[3:5]=='ST'):
+                    return redirect('/student_home/')
 
-            if(r[0].user_name[3:5]=='WR'):
-                return redirect('/worker_home/')
+                if(var[0].user_name[3:5]=='WR'):
+                    return redirect('/worker_home/')
 
     return render(request,'login.html')
 
@@ -69,6 +74,7 @@ def worker_register(request):
         obj = WORKER_REGISTER.objects.all()
         wcount = len(obj)
         username = "MITWR"+"00"+str(wcount+1)
+        print(username)
         r = WORKER_REGISTER(user_name=username,first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],email=data['email'],password=data['password'])
         r.save()
         common = REGISTRATIONS(user_name=username,first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],email=data['email'],password=data['password'])
@@ -109,6 +115,130 @@ def confirm(request):
         return redirect("/student_home/")
     return render(request,'confirm.html',prob)
 
+
+
+
+def block_id(request):
+    if request.method == 'POST':
+        data=request.POST
+        print("*************************************")
+        print(data)
+        print("**************************************")
+        some=data['username']
+        print(some)
+        var=tempo.filter(user_name=some)
+        id=len(var)
+        print("***")
+        print(var[id-1].status)
+        var[id-1].status="block"
+        var[id-1].save()
+
+    return render(request,"remove.html",{})
+
+def unblock(request):
+    return render(request,"unblock.html",{})
+
+def unblock_id(request):
+    if request.method == 'POST':
+        data=request.POST
+        print("*************************************")
+        print(data)
+        print("**************************************")
+        some=data['username']
+        print(some)
+        var=tempo.filter(user_name=some)
+        id=len(var)
+        print("***")
+        print(var[id-1].status)
+        var[id-1].status="available"
+        var[id-1].save()
+
+    return render(request,"remove.html",{})
+
+
+
+def block(request):
+    return render(request,"block.html",{})
+
+
+def rem(request):
+    return render(request,"remove.html",{})
+
+def rem_id(request):
+    if request.method == 'POST':
+        data=request.POST
+        print("*************************************")
+        print(data)
+        print("**************************************")
+        some=data['username']
+        print(some)
+
+
+        tempo.filter(user_name=some).delete()
+
+
+
+
+
+    return render(request,"block.html",{})
+
+def profile(request):
+    context={}
+    if request.method == 'POST':
+        data=request.POST
+        print("*************************************")
+        print(data)
+        print("**************************************")
+        some=data['username']
+        print(some)
+
+        var=tempo.filter(user_name=some)
+        id=len(var)
+        if id!=0:
+            print("***")
+            status=var[id-1].status
+            if status=="available":
+                first_name=var[id-1].first_name
+                last_name=var[id-1].last_name
+                institute =var[id-1].institute_name
+                department=var[id-1].department
+                email=var[id-1].email
+                password=var[id-1].password
+                context['f_name']=first_name
+                context['l_name']=last_name
+                context['i_name']=institute
+                context['d_name']=department
+                context['e_mail']=email
+                context['p_word']=password
+                context['user_name']=some
+
+        return render(request,"profile.html",context)
+
+
+
+
+
+
+    return render(request,"profile.html",{})
+
+def s_change(request):
+    if request.method == 'POST':
+        data=request.POST
+        print(data)
+        some=data['user_id']
+        user_name=data['user']
+        email=data['email']
+        department=data['department']
+        password=data['password']
+        var=tempo.filter(user_name=some)
+        id=len(var)
+        print("***")
+        var[id-1].first_name=user_name
+        var[id-1].email=email
+        var[id-1].password=password
+        var[id-1].department=department
+        var[id-1].save()
+    return render(request,"admin.html",{})
 
 
 
@@ -216,8 +346,9 @@ def report(request):
     return render(request,'report.html')
 
 
-def profile(request):
-    return render(request,'profile.html')
+def edit(request):
+    return render(request,'edit.htmL',{})
+
 
 def worker_profile(request):
     return render(request,'worker_profile.html')
@@ -232,8 +363,8 @@ def admin(request):
     date=''
     pdays=[]
     gdays=[]
-    pd={}
-    gd={}
+    pd=[]
+    gd=[]
     gcount=pcount=0
     rang=[]
     for i in object:
@@ -261,15 +392,18 @@ def admin(request):
     for m in range(31):
         pcount=pdays.count(m)
         gcount=gdays.count(m)
-        pd[m]=pcount
-        gd[m]=gcount
+        pd.append(pcount)
+        gd.append(gcount)
+        #pd[m]=pcount
+        #gd[m]=gcount
         print("pd",m,": ",pd[m],"\n")
-        print("gd",m,": ",gd[m],"\n")    
+        print("gd",m,": ",gd[m],"\n")
         if m!=31:
             rang.append(m)
     print("pd----------------:",pd)
     print("gd----------------:",gd)
     print("total counts:\ngarbage:",garbage,"\npothole:",pothole)
+    rangepdgd = zip(rang,pd,gd)
     context={
     'pothole':pothole,
     'garbage':garbage,
@@ -277,8 +411,7 @@ def admin(request):
     'complete_pothole':complete_pothole,
     'incomplete_garbage':incomplete_garbage,
     'complete_garbage':complete_garbage,
-    'pd':pd,
-    'gd':gd,
+    'rangepdgd':rangepdgd,
     'rang':rang
     }
     return render(request,'admin.html',context)

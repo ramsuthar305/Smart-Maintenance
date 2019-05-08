@@ -17,6 +17,7 @@ class STUDENT_REGISTER(models.Model):
     password = models.CharField(max_length=100)
 
 class WORKER_REGISTER(models.Model):
+    
     user_id = models.AutoField(primary_key=True)
     user_name = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100)
@@ -27,6 +28,7 @@ class WORKER_REGISTER(models.Model):
     password = models.CharField(max_length=100)
 
 class REGISTRATIONS(models.Model):
+    status=models.CharField(max_length=200,default="available")
     user_id = models.AutoField(primary_key=True)
     user_name = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100)

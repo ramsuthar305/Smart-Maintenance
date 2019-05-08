@@ -31,16 +31,26 @@
     <div class="container col-xs-18" style="padding-top:14%;">
       <div class="col-xs-18" style="text-align:center;">
         <img class="rounded-circle" src="https://img.kpopmap.com/2017/11/Kim-DongYoon.jpg" alt="" style="height:120px;">
-        <p class="heading" style="padding-top:3%;"><strong>Safir Motiwala</strong></p>
+        <p class="heading" style="padding-top:3%;"><strong>{{f_name}} {{l_name}}</strong></p>
       </div>
+
       <div class="col-xs-18" style=" padding-top:4%;">
-        <form class="col-xs-18">
+        <form method="post" action="/s_change/" class="col-xs-18">
+          {% csrf_token %} 
+          <div class="form-group row container">
+            <div class="col-xs-4" style=" padding-right:7%; padding-left:5%;">
+              <strong><label for="Username" class="col-form-label" style="color:white;font-family: 'Rajdhani', sans-serif;">USER ID </label></strong>
+            </div>
+            <div class="col-xs-14" style=" padding-right:5%; padding-left:10%;">
+              <input type="text" class="form-control-plaintext" name = user_id value="{{user_name}}" id="Username" placeholder="" style="border-bottom:1px solid #10aad2; font-size:14px;width:100%;  font-family: 'Rajdhani', sans-serif; color:white;" readonly>
+            </div>
+          </div>
           <div class="form-group row container">
             <div class="col-xs-4" style=" padding-right:5%; padding-left:5%;">
               <strong><label for="Username" class="col-form-label" style="color:white;font-family: 'Rajdhani', sans-serif;">Username </label></strong>
             </div>
             <div class="col-xs-14" style=" padding-right:5%; padding-left:2%;">
-              <input type="text" class="form-control-plaintext" id="Username" value="SafirMit1" style="border-bottom:1px solid #10aad2; font-size:14px;width:100%;  font-family: 'Rajdhani', sans-serif; color:white;">
+              <input type="text" class="form-control-plaintext"name="user" id="Username" placeholder="{{f_name}} {{l_name}}" style="border-bottom:1px solid #10aad2; font-size:14px;width:100%;  font-family: 'Rajdhani', sans-serif; color:white;">
             </div>
           </div>
           <div class="form-group row container">
@@ -48,31 +58,23 @@
               <strong><label for="Username" class="col-form-label" style="color:white;font-family: 'Rajdhani', sans-serif;">Email </label></strong>
             </div>
             <div class="col-xs-14" style=" padding-right:5%; padding-left:10%;">
-              <input type="text" class="form-control-plaintext" id="Username" value="Safir@email.com" style="border-bottom:1px solid #10aad2; font-size:14px;width:100%;  font-family: 'Rajdhani', sans-serif; color:white;">
+              <input type="text" class="form-control-plaintext" name="email" placeholder="{{e_mail}}"id="Username" placeholder="" style="border-bottom:1px solid #10aad2; font-size:14px;width:100%;  font-family: 'Rajdhani', sans-serif; color:white;">
             </div>
           </div>
           <div class="form-group row container">
             <div class="col-xs-4" style=" padding-right:2%; padding-left:5%;">
-              <strong><label for="Username" class="col-form-label" style="color:white;font-family: 'Rajdhani', sans-serif;">Institution </label></strong>
+              <strong><label for="Username" class="col-form-label" style="color:white;font-family: 'Rajdhani', sans-serif;">Department </label></strong>
             </div>
             <div class="col-xs-14" style=" padding-right:5%; padding-left:5%;">
-              <input type="text" class="form-control-plaintext" id="Username" value="MIT SOE" style="border-bottom:1px solid #10aad2; font-size:14px;width:100%;  font-family: 'Rajdhani', sans-serif; color:white;">
+              <input type="text" class="form-control-plaintext" name="department" id="Username" placeholder="{{d_name}}" style="border-bottom:1px solid #10aad2; font-size:14px;width:100%;  font-family: 'Rajdhani', sans-serif; color:white;">
             </div>
           </div>
           <div class="form-group row container">
             <div class="col-xs-4" style=" padding-right:5%; padding-left:5%;">
-              <strong><label for="Username" class="col-form-label" style="color:white;font-family: 'Rajdhani', sans-serif;">Division </label></strong>
+              <strong><label for="Username" class="col-form-label" style="color:white;font-family: 'Rajdhani', sans-serif;">Password </label></strong>
             </div>
             <div class="col-xs-14" style=" padding-right:5%; padding-left:8%;">
-              <input type="text" class="form-control-plaintext" id="Username" value="Information Technology" style="border-bottom:1px solid #10aad2; font-size:14px;width:100%;  font-family: 'Rajdhani', sans-serif; color:white;">
-            </div>
-          </div>
-          <div class="form-group row container">
-            <div class="col-xs-4" style=" padding-right:7%; padding-left:5%;">
-              <strong><label for="Username" class="col-form-label" style="color:white;font-family: 'Rajdhani', sans-serif;">Phone </label></strong>
-            </div>
-            <div class="col-xs-14" style=" padding-right:5%; padding-left:8%;">
-              <input type="text" class="form-control-plaintext" id="Username" value="7798196643" style="border-bottom:1px solid #10aad2; font-size:14px;width:100%;  font-family: 'Rajdhani', sans-serif; color:white;">
+              <input type="text" class="form-control-plaintext" name="password" id="Username" placeholder="{{p_word}}" style="border-bottom:1px solid #10aad2; font-size:14px;width:100%;  font-family: 'Rajdhani', sans-serif; color:white;">
             </div>
           </div>
           <button type="submit" class="btn btn-block btn1">Save Changes</button>
