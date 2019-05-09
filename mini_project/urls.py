@@ -26,6 +26,7 @@ urlpatterns = [
     path('student_home/',views.shome,name="shome"),
     path('worker_home/',views.whome,name="whome"),
     url(r'^handle/(?P<problem_id>[0-9]+)/$',views.handle,name="handle"),
+    url(r'^wrong_domain/(?P<problem_id>[0-9]+)/$',views.wrong_domain,name="wrong_domain"),
     path('pass/',views.pass_pro,name="pass"),
     path('image/',views.image,name="image"),
     path('detect/',views.detect,name="detect"),

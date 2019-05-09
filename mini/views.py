@@ -361,12 +361,26 @@ def pass_pro(request):
     obj=ALL_PROBLEMS1.objects.get(worker_name=info['user_name'],status="2")
 
     obj.status=0
+    obj.worker_name=""
     obj.save()
     return redirect("/worker_home/")
 
-
-
-
+def wrong_domain(request,problem_id):
+    global info
+    global probid
+    temp = {}
+    temp1 = ""
+    probid = problem_id
+    p = ALL_PROBLEMS1.objects.get(pk=problem_id)
+    if p.problem_type=="Garbage":
+        temp1="Civil"
+    if p.problem_type=="Civil":
+        temp1="Garbage"
+    p.problem_type=temp1
+    p.save()
+    print("in wrong domain")
+    print(problem_id)
+    return redirect("/worker_home/")
 
 
 #classifier
@@ -387,7 +401,13 @@ def detect(request):
     #nam=name
     #nam=nam[7:]
     #print('*'*10,nam,'*'*10)
+
+    #Uncomment the next statement to execute on Ram's Laptop
     name='C:/Users/LENOVO/Documents/mini_project/'+str(prob['pic'])
+
+    #Uncomment the next statement to execute on Safir's Laptop
+    #name='C:/Users/Admin/Documents/GitHub/smart-maintenance/'+str(prob['pic'])
+    
     print('*'*50,name,'*'*50)
     test_image=open_image(name)
     for i in range(5):
