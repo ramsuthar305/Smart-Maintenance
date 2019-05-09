@@ -1,0 +1,74 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Garbage Problems</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+</head>
+
+<body class="bg-dark">
+  <section>
+  <!--for demo wrap-->
+  <h1>Garbage Problems</h1>
+  <div class="tbl-header border border-primary">
+    <table cellpadding="0" cellspacing="0" border="0" >
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Location</th>
+          <th>Image</th>
+          <th>Status</th>
+          <th>Worker Name</th>
+          <th>Problem Type</th>
+          <th>Report Date</th>
+          <th>Complettion Date</th>
+
+
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="tbl-content border border-primary">
+    <table cellpadding="0" cellspacing="0" border="0">
+
+      <tbody>
+          {% for i in all_problem_data %}
+        <tr>
+          <td>{{i.description}}</td>
+          <td>{{i.location}}</td>
+          <td>{{i.image}}</td>
+          <td>{{i.status}}</td>
+          <td>{{i.worker_name}}</td>
+          <td>{{i.problem_type}}</td>
+          <td>{{i.report_date}}</td>
+          <td>{{i.completion_date}}</td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+
+    </table>
+  </div>
+</section>
+
+
+<!-- follow me template -->
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+    <script src="{% static 'js/index.js' %}"></script>
+
+</body>
+</html>

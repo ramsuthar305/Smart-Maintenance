@@ -26,9 +26,9 @@ urlpatterns = [
     path('student_home/',views.shome,name="shome"),
     path('worker_home/',views.whome,name="whome"),
     url(r'^handle/(?P<problem_id>[0-9]+)/$',views.handle,name="handle"),
-    url(r'^pass/(?P<problem_id>[0-9]+)/$',views.pass_prob,name="pass"),
-    #path('image/',views.image,name="image"),
-    #path('detect/',views.detect,name="detect"),
+    path('pass/',views.pass_pro,name="pass"),
+    path('image/',views.image,name="image"),
+    path('detect/',views.detect,name="detect"),
     path('confirm/',views.confirm,name="confirm"),
     path('confirm1/',views.confirm1,name="confirm"),
     path('report/',views.report,name="report"),
@@ -44,6 +44,15 @@ urlpatterns = [
     path('edit/',views.edit,name="edit"),
     path('s_change/',views.s_change,name="s_change"),
     path('unblock_id/',views.unblock_id,name="unblock_id"),
+    path('pro/',views.pro,name="pro"),
+    path('user_table/',views.user_table,name="user_table"),
+    path('worker_table/',views.worker_table,name="worker_table"),
+    path('garbage_table/',views.garbage_table,name="garbage_table"),
+    path('civil_table/',views.civil_table,name="civil_table"),
+    path('all_problem_table/',views.all_problem_table,name="all_problem_table"),
+    path('completed_table/',views.completed_table,name="completed_table"),
+
+
 
 
 

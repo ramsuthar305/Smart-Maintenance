@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Worker registration</title>
   </head>
   <body>
 
@@ -30,23 +30,25 @@
                     <input type="text" class="form-control" name="last_name" id="lname" aria-describedby="Last_Name" placeholder="Last Name">
                   </div>
                   <div class="form-group">
-                    <input type="text" class="form-control" name="domain" id="dom" aria-describedby="Domain" placeholder="Domain">
+                      <label for="domain">Domain </label><br>
+                      <input type="radio" name="domain" value="Garbage" checked>Garbage
+                      <input type="radio" name="domain" value="Civil">Civil
                   </div>
-    
+
                 <div class="form-group">
                     <input type="email" class="form-control" name="email" id="signin_email" aria-describedby="emailHelp" placeholder="Email">
                 </div>
                 <div class="form-group">
                     <input type="password" class="form-control" name="password" id="signin_pass" placeholder="Password">
                 </div>
-							
+
                 <div class="form-group" style="padding-bottom:3%;">
                     <input type="submit" name="register" class="btn btn-danger " value="Submit">
                 </div>
               </form>
 
 						</div>
-          
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import STUDENT_REGISTER, WORKER_REGISTER1, REGISTRATIONS, LOGIN_DETAILS, ALL_PROBLEMS1, TEMP_PROBLEMS, TEMP_REPORT, WORKER_REPORT
 from .models import maintenance
-#from fastai import *
-#from fastai.vision import *
+from fastai import *
+from fastai.vision import *
 import datetime
 tempo = REGISTRATIONS.objects.all()
 global var
@@ -51,6 +51,40 @@ def logout(request):
     request.session["user_name"] = False
     request.session["login"] = False
     return redirect('/login/')
+
+
+def pro(request):
+    context={}
+    global info
+    temp1 = info['email_id']
+    print(temp1)
+    var=tempo.filter(email=temp1)
+    print(var)
+    id=len(var)
+    if id!=0:
+        print("***")
+        status=var[id-1].status
+        if status=="available":
+            first_name=var[id-1].first_name
+            last_name=var[id-1].last_name
+            institute =var[id-1].institute_name
+            department=var[id-1].department
+            email=var[id-1].email
+            username=var[id-1].user_name
+            password=var[id-1].password
+            context['f_name']=first_name
+            context['l_name']=last_name
+            context['i_name']=institute
+            context['d_name']=department
+            context['e_mail']=email
+            context['p_word']=password
+            context['user_name']=username
+
+
+        return render(request,"profile.html",context)
+    return render(request,"profile.html",{})
+
+
 
 def student_register(request):
     context = {}
@@ -111,7 +145,7 @@ def confirm(request):
     if request.method=="POST":
         print(prob['pic'])
         #problem_type=detect(request)
-        p = ALL_PROBLEMS1(description=prob['description'],location=prob['location'],image=prob['pic'],status=0,problem_type="Civil",report_date=datetime.datetime.now().strftime("%d-%m-%Y"))
+        p = ALL_PROBLEMS1(description=prob['description'],location=prob['location'],image=prob['pic'],status=0,problem_type=detect(request),report_date=datetime.datetime.now().strftime("%d-%m-%Y"))
         p.save()
         print("confirm")
         return redirect("/student_home/")
@@ -135,7 +169,7 @@ def block_id(request):
         var[id-1].status="block"
         var[id-1].save()
 
-    return render(request,"remove.html",{})
+    return render(request,"admin.html",{})
 
 def block(request):
     return render(request,"block.html",{})
@@ -158,7 +192,7 @@ def unblock_id(request):
         var[id-1].status="available"
         var[id-1].save()
 
-    return render(request,"remove.html",{})
+    return render(request,"admin.html",{})
 
 
 def rem(request):
@@ -175,7 +209,7 @@ def rem_id(request):
 
         tempo.filter(user_name=some).delete()
 
-    return render(request,"block.html",{})
+    return render(request,"admin.html",{})
 
 def profile(request):
     context={}
@@ -215,21 +249,63 @@ def s_change(request):
         data=request.POST
         print(data)
         some=data['user_id']
+        l_name=data['l_name']
         user_name=data['user']
         email=data['email']
-        department=data['department']
         password=data['password']
         var=tempo.filter(user_name=some)
         id=len(var)
         print("***")
         var[id-1].first_name=user_name
+        var[id-1].last_name=l_name
         var[id-1].email=email
         var[id-1].password=password
-        var[id-1].department=department
+
         var[id-1].save()
-    return render(request,"admin.html",{})
+
+        return redirect("/pro/")
 
 
+def user_table(request):
+    context={}
+    temp=STUDENT_REGISTER.objects.all()
+    context["student_data"]=temp
+    return render(request,"user_table.html",context)
+
+
+def worker_table(request):
+    context={}
+    temp=WORKER_REGISTER1.objects.all()
+    context["worker_data"]=temp
+    return render(request,"worker_table.html",context)
+
+def garbage_table(request):
+    context={}
+    temp=ALL_PROBLEMS1.objects.filter(problem_type="Garbage")
+
+    context["garbage_data"]=temp
+    return render(request,"garbage_table.html",context)
+
+def civil_table(request):
+    context={}
+    temp=ALL_PROBLEMS1.objects.filter(problem_type="Civil")
+
+    context["civil_data"]=temp
+    return render(request,"civil_table.html",context)
+
+def all_problem_table(request):
+    context={}
+    temp=ALL_PROBLEMS1.objects.all()
+
+    context["all_problem_data"]=temp
+    return render(request,"all_problem_table.html",context)
+
+def completed_table(request):
+    context={}
+    temp=ALL_PROBLEMS1.objects.filter(status="3")
+
+    context["complete_data"]=temp
+    return render(request,"completed_table.html",context)
 
 def whome(request):
     global info
@@ -250,7 +326,7 @@ def whome(request):
     for i in p:
         if i.status=='0' and i.problem_type==temp1:
             pending.append(i)
-    
+
     worker_context = {'name':temp,'problems':pending}
 
     obj = ALL_PROBLEMS1.objects.filter(worker_name=temp)
@@ -263,6 +339,7 @@ def whome(request):
                 return render(request,'worker_home.html',worker_context)
     else:
         return render(request,'worker_home.html',worker_context)
+    return render(request,'worker_home.html',worker_context)
 
 def handle(request,problem_id):
     global info
@@ -278,16 +355,20 @@ def handle(request,problem_id):
     print(problem_id)
     return render(request,"report.html")
 
-def pass_prob(request,problem_id):
+def pass_pro(request):
+    global info
     print("in pass")
-    print(problem_id)
-    return HttpResponse("DONE")
+    obj=ALL_PROBLEMS1.objects.get(worker_name=info['user_name'],status="2")
+
+    obj.status=0
+    obj.save()
+    return redirect("/worker_home/")
 
 
 
 
 
-'''
+
 #classifier
 def detect(request):
     global prob
@@ -315,6 +396,11 @@ def detect(request):
         pred_class,pred_idx,outputs = learn.predict(test_image)
         lst.append(pred_class)
     category=max(lst,key=lst.count)
+    category=str(category)
+    if category=="pothole":
+        category="Civil"
+    if category=="garbage":
+        category="Garbage"
     print('*\n'*5,category,'list=',lst,'\n*'*5)
     return str(category)
     #return render(request,'student_home.html',context)
@@ -324,8 +410,7 @@ def detect(request):
 
 def classify(request):
     return render(request,'student_home.html',{})
-'''
-'''
+
 def image(request):
     if request.method=='POST' and request.FILES['img']:
         pic=request.FILES['img']
@@ -335,7 +420,7 @@ def image(request):
         context=detect(request)
         print("#*#"*10,context,"#*#"*10)
         return render(request,'student_home.html',context)
-'''
+
 def camera(request):
     return render(request,'camera.html')
 
@@ -362,7 +447,7 @@ def report(request):
         print(pic1)
         prob1 = {'name':temp1,'description':data['description'],'pic':pic1}
         return redirect("/confirm1/")
-    return render(request,'report.html')
+    return render(request,'report.html',context)
 
 def confirm1(request):
     global info

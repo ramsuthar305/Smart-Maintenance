@@ -37,14 +37,14 @@
       }
     </style>
   </head>
-  <body>
+  <body class="bg-dark">
     <div class="container col-xs-18 bg-dark" style="text-align:center;">
       <div class="col-xs-18" style="padding-top:2%;">
         <div class="col-xs-6">
           <a role="button" href="/logout/" class="logout"><img src="{% static 'log-out.png' %}" alt="logout" style="height:20px;"></button>
         </div>
         <div class="col-xs-6" style="text-align:right;">
-          <a href="#" style="color:#0cabcf; font-family: 'Rajdhani', sans-serif; padding-right:2%;"><img src="{% static 'man-user.png' %}" alt="logout" style="height:18px; padding-right:2%;">{{ name }}</a>
+          <a href="/pro/" style="color:#0cabcf; font-family: 'Rajdhani', sans-serif; padding-right:2%;"><img src="{% static 'man-user.png' %}" alt="logout" style="height:18px; padding-right:2%;">{{ name }}</a>
         </div>
         <div class="col-xs-6" style="text-align:center;">
           <img src="{% static 'm.png'%}" style="height:35px; "alt="">
@@ -61,14 +61,13 @@
           <p class="card-text">{{ i.description }}</p>
           <hr><h5 class="card-title">Location <i class="fas fa-map-marked-alt"></i></h5>
           <p class="card-text">{{ i.location }}</p>
-          <a href="/pass/{{ i.problem_id }}" role="button" class="btn btn3">Pass</a>
           <a href="/handle/{{ i.problem_id }}" role="button" class="btn btn3">Handle</a>
-          <button class="btn btn3">Wrong domain</button>
+          
         </div>
       </div>
       {% endfor %}
 
-      
+
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
