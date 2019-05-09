@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import STUDENT_REGISTER, WORKER_REGISTER, REGISTRATIONS, LOGIN_DETAILS, ALL_PROBLEMS, TEMP_PROBLEMS
-from django.http import HttpResponse
+from .models import STUDENT_REGISTER, WORKER_REGISTER1, REGISTRATIONS, LOGIN_DETAILS, ALL_PROBLEMS1, TEMP_PROBLEMS, TEMP_REPORT, WORKER_REPORT
 from .models import maintenance
-from fastai import *
-from fastai.vision import *
+#from fastai import *
+#from fastai.vision import *
 import datetime
 tempo = REGISTRATIONS.objects.all()
 global var
 info = {}
-prob={}
+prob = {}
+prob1 = {}
+probid = 0
 # Create your views here.
 def login(request):
     global info
@@ -61,7 +62,7 @@ def student_register(request):
         username = "MITST"+"00"+str(scount+1)
         r = STUDENT_REGISTER(user_name=username,first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],email=data['email'],password=data['password'])
         r.save()
-        common = REGISTRATIONS(user_name=username,first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],email=data['email'],password=data['password'])
+        common = REGISTRATIONS(user_name=username,first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],domain='NULL',email=data['email'],password=data['password'])
         common.save()
         context = {'display':"Registered Successfully"}
     return render(request,'student_register.html',context)
@@ -71,13 +72,13 @@ def worker_register(request):
     if request.method=='POST':
         print("in here")
         data = request.POST
-        obj = WORKER_REGISTER.objects.all()
+        obj = WORKER_REGISTER1.objects.all()
         wcount = len(obj)
         username = "MITWR"+"00"+str(wcount+1)
         print(username)
-        r = WORKER_REGISTER(user_name=username,first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],email=data['email'],password=data['password'])
+        r = WORKER_REGISTER1(user_name=username,first_name=data['first_name'],last_name=data['last_name'],domain=data['domain'],email=data['email'],password=data['password'])
         r.save()
-        common = REGISTRATIONS(user_name=username,first_name=data['first_name'],last_name=data['last_name'],institute_name=data['institute_name'],department=data['department'],email=data['email'],password=data['password'])
+        common = REGISTRATIONS(user_name=username,first_name=data['first_name'],last_name=data['last_name'],institute_name='NULL',department='NULL',domain=data['domain'],email=data['email'],password=data['password'])
         common.save()
         context = {'display':"Registered Successfully"}
     return render(request,'worker_register.html',context)
@@ -109,7 +110,8 @@ def confirm(request):
 
     if request.method=="POST":
         print(prob['pic'])
-        p = ALL_PROBLEMS(description=prob['description'],location=prob['location'],image=prob['pic'],status=0,problem_type=detect(request),date=datetime.datetime.now().strftime("%d-%m-%Y"))
+        #problem_type=detect(request)
+        p = ALL_PROBLEMS1(description=prob['description'],location=prob['location'],image=prob['pic'],status=0,problem_type="Civil",report_date=datetime.datetime.now().strftime("%d-%m-%Y"))
         p.save()
         print("confirm")
         return redirect("/student_home/")
@@ -135,6 +137,9 @@ def block_id(request):
 
     return render(request,"remove.html",{})
 
+def block(request):
+    return render(request,"block.html",{})
+
 def unblock(request):
     return render(request,"unblock.html",{})
 
@@ -156,11 +161,6 @@ def unblock_id(request):
     return render(request,"remove.html",{})
 
 
-
-def block(request):
-    return render(request,"block.html",{})
-
-
 def rem(request):
     return render(request,"remove.html",{})
 
@@ -173,12 +173,7 @@ def rem_id(request):
         some=data['username']
         print(some)
 
-
         tempo.filter(user_name=some).delete()
-
-
-
-
 
     return render(request,"block.html",{})
 
@@ -240,30 +235,42 @@ def whome(request):
     global info
     global prob
     temp = ""
+    temp1 = ""
     flag = 0
     pending = []
+
     if len(info)>0:
+        print("info if")
         temp = info['user_name']
-    p = ALL_PROBLEMS.objects.all()
+        obj123 = WORKER_REGISTER1.objects.filter(first_name=temp)
+        if (len(obj123)>0):
+            temp1 = obj123[0].domain
+            print(obj123)
+    p = ALL_PROBLEMS1.objects.all()
     for i in p:
-        if i.status=='0':
+        if i.status=='0' and i.problem_type==temp1:
             pending.append(i)
+    
     worker_context = {'name':temp,'problems':pending}
 
-    obj = ALL_PROBLEMS.objects.filter(worker_name=temp)
+    obj = ALL_PROBLEMS1.objects.filter(worker_name=temp)
     if(len(obj)>0):
         for i in obj:
             print(i.status)
             if i.status=='2':
                 return render(request,'report.html')
+            if i.status=='3':
+                return render(request,'worker_home.html',worker_context)
     else:
         return render(request,'worker_home.html',worker_context)
 
 def handle(request,problem_id):
     global info
+    global probid
     temp = {}
+    probid = problem_id
     status = 2
-    p = ALL_PROBLEMS.objects.get(pk=problem_id)
+    p = ALL_PROBLEMS1.objects.get(pk=problem_id)
     p.status=status
     p.worker_name = info['user_name']
     p.save()
@@ -280,7 +287,7 @@ def pass_prob(request,problem_id):
 
 
 
-
+'''
 #classifier
 def detect(request):
     global prob
@@ -312,13 +319,13 @@ def detect(request):
     return str(category)
     #return render(request,'student_home.html',context)
 
-'''
+
 # Create your views here.
 
 def classify(request):
     return render(request,'student_home.html',{})
 '''
-
+'''
 def image(request):
     if request.method=='POST' and request.FILES['img']:
         pic=request.FILES['img']
@@ -328,7 +335,7 @@ def image(request):
         context=detect(request)
         print("#*#"*10,context,"#*#"*10)
         return render(request,'student_home.html',context)
-
+'''
 def camera(request):
     return render(request,'camera.html')
 
@@ -337,8 +344,43 @@ def loc(request):
 
 
 def report(request):
+    global info
+    global prob1
+    temp1 = ""
+    if len(info)>0:
+        temp1 = info['user_name']
+    context = {'name':temp1}
+    if request.method=="POST" and request.FILES['image']:
+        pic=request.FILES['image']
+        data=request.POST
+        p = TEMP_REPORT(worker_name=temp1,description=data['description'],image=pic)
+        p.save()
+        print("saved worker report")
+        temp = TEMP_REPORT.objects.all()
+        l = len(temp)
+        pic1 = temp[l-1].image
+        print(pic1)
+        prob1 = {'name':temp1,'description':data['description'],'pic':pic1}
+        return redirect("/confirm1/")
     return render(request,'report.html')
 
+def confirm1(request):
+    global info
+    global prob1
+
+    if request.method=="POST":
+        print(prob1['pic'])
+        p = WORKER_REPORT(description=prob1['description'],image=prob1['pic'],date=datetime.datetime.now().strftime("%d-%m-%Y"))
+        p.save()
+        print("confirm")
+        status = 3
+        p = ALL_PROBLEMS1.objects.get(worker_name=info['user_name'],status=2)
+        print(p.description)
+        p.status=status
+        p.completion_date=datetime.datetime.now().strftime("%d-%m-%Y")
+        p.save()
+        return redirect("/worker_home/")
+    return render(request,'confirm1.html',prob1)
 
 def edit(request):
     return render(request,'edit.htmL',{})
@@ -348,7 +390,7 @@ def worker_profile(request):
     return render(request,'worker_profile.html')
 
 def admin(request):
-    object=ALL_PROBLEMS.objects.all()
+    object=ALL_PROBLEMS1.objects.all()
     garbage=pothole=0
     complete_garbage=0
     incomplete_garbage=0
