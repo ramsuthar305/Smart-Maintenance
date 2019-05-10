@@ -1,0 +1,6 @@
+There are following dependencies for the project:
+	Every thing is coded in python 3.7 so do not forget to install python==3.7
+	1) anaconda
+	2) using anaconda prompt run following commands:
+		1)conda install -c anaconda django
+		2)conda install -c pytorch -c fastai fastai
