@@ -17,7 +17,7 @@ class STUDENT_REGISTER(models.Model):
     password = models.CharField(max_length=100)
 
 class WORKER_REGISTER1(models.Model):
-    
+
     user_id = models.AutoField(primary_key=True)
     user_name = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100)
@@ -70,3 +70,8 @@ class WORKER_REPORT(models.Model):
     description = models.CharField(max_length=1000)
     image = models.ImageField(upload_to='static/uploads/completed/')
     date = models.CharField(max_length=100)
+
+class adminlog(models.Model):
+    name=models.CharField(max_length=100)
+    email_id=models.CharField(max_length=100)
+    password=models.CharField(max_length=100)

@@ -52,7 +52,11 @@ urlpatterns = [
     path('civil_table/',views.civil_table,name="civil_table"),
     path('all_problem_table/',views.all_problem_table,name="all_problem_table"),
     path('completed_table/',views.completed_table,name="completed_table"),
-
+    path('admin_login/',views.admin_login,name="admin_login"),
+    path('problem/',views.problem,name="problem"),
+    path('complete_incomplete/',views.complete_incomplete,name="complete_incomplete"),
+    path('monthly_summary/',views.monthly_summary,name="monthly_summary"),
+    path('adminlogg/',views.adminlogg,name="adminlogg"),
 
 
 

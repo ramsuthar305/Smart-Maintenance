@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import STUDENT_REGISTER, WORKER_REGISTER1, REGISTRATIONS, LOGIN_DETAILS, ALL_PROBLEMS1, TEMP_PROBLEMS, TEMP_REPORT, WORKER_REPORT
+from .models import STUDENT_REGISTER, WORKER_REGISTER1, REGISTRATIONS, LOGIN_DETAILS, ALL_PROBLEMS1, TEMP_PROBLEMS, TEMP_REPORT, WORKER_REPORT, adminlog
 from .models import maintenance
 from fastai import *
 from fastai.vision import *
@@ -403,11 +403,11 @@ def detect(request):
     #print('*'*10,nam,'*'*10)
 
     #Uncomment the next statement to execute on Ram's Laptop
-    name='C:/Users/LENOVO/Documents/mini_project/'+str(prob['pic'])
+    #name='C:/Users/LENOVO/Documents/mini_project/'+str(prob['pic'])
 
     #Uncomment the next statement to execute on Safir's Laptop
-    #name='C:/Users/Admin/Documents/GitHub/smart-maintenance/'+str(prob['pic'])
-    
+    name='C:/Users/Admin/Documents/GitHub/smart-maintenance/'+str(prob['pic'])
+
     print('*'*50,name,'*'*50)
     test_image=open_image(name)
     for i in range(5):
@@ -495,6 +495,26 @@ def worker_profile(request):
     return render(request,'worker_profile.html')
 
 def admin(request):
+    context=graph_content(request)
+    return render(request,'admin.html',context)
+
+def admin_login(request):
+    return render(request,'admin_login.html',{})
+
+def problem(request):
+    context=graph_content(request)
+    return render(request,'piechart.html',context)
+
+def complete_incomplete(request):
+    context=graph_content(request)
+    return render(request,'complete_incomplete.html',context)
+
+def monthly_summary(request):
+    context=graph_content(request)
+    return render(request,'monthly_summary.html',context)
+
+
+def graph_content(request):
     object=ALL_PROBLEMS1.objects.all()
     garbage=pothole=0
     complete_garbage=0
@@ -510,25 +530,27 @@ def admin(request):
     rang=[]
     for i in object:
         print("0"*5,i.problem_type)
-        if i.problem_type=="pothole":
+        if i.problem_type=="Civil":
             pothole+=1
-            if i.status=="0":
+            if i.status=="0" or i.status=="2":
                 incomplete_pothole+=1
-            if i.status=="1":
+            if i.status=="3":
                 complete_pothole+=1
             date=datetime.datetime.now().strftime("%m")
-            if date==i.date[3:5]:
-                pdays.append(int(i.date[0:2]))
+            if date==i.report_date[3:5]:
+                print("\n*********CIVIL************\nDATE",date," == REPORT_DATE ",i.report_date[3:5])
+                pdays.append(int(i.report_date[0:2]))
             print("civil problem detected")
 
-        if i.problem_type=="garbage":
+        if i.problem_type=="Garbage":
             garbage+=1
-            if i.status=="0":
+            if i.status=="0" or i.status=="2":
                 incomplete_garbage+=1
-            if i.status=="1":
+            if i.status=="3":
                 complete_garbage+=1
-            if date==i.date[3:5]:
-                gdays.append(int(i.date[0:2]))
+            if date==i.report_date[3:5]:
+                print("\n*********GARBAGE************\nDATE"+date+" == ,REPORT_DATE ",i.report_date[3:5])
+                gdays.append(int(i.report_date[0:2]))
             print("garbage problem detected")
     for m in range(31):
         pcount=pdays.count(m)
@@ -537,14 +559,22 @@ def admin(request):
         gd.append(gcount)
         #pd[m]=pcount
         #gd[m]=gcount
-        print("pd",m,": ",pd[m],"\n")
-        print("gd",m,": ",gd[m],"\n")
+        print("\n********************\nPcount: ",pcount)
         if m!=31:
             rang.append(m)
-    print("pd----------------:",pd)
-    print("gd----------------:",gd)
+
+    p2=[]
+    g2=[]
+    print("lenth: ",len(pd))
+    for i in range(6):
+        print(pd)
+        p2.append(int(sum(pd[0:5])))
+        g2.append(int(sum(gd[0:5])))
+        del pd[0:5]
+        del gd[0:5]
+    print("\n\n\n\n\nPothole: ",p2,"\ngarbage: ",g2,"\n\n\n\n\n")
     print("total counts:\ngarbage:",garbage,"\npothole:",pothole)
-    rangepdgd = zip(rang,pd,gd)
+
     context={
     'pothole':pothole,
     'garbage':garbage,
@@ -552,7 +582,40 @@ def admin(request):
     'complete_pothole':complete_pothole,
     'incomplete_garbage':incomplete_garbage,
     'complete_garbage':complete_garbage,
-    'rangepdgd':rangepdgd,
-    'rang':rang
+
+    'p1':p2[0],
+    'p2':p2[1],
+    'p3':p2[2],
+    'p4':p2[3],
+    'p5':p2[4],
+    'p6':p2[5],
+    'g1':g2[0],
+    'g2':g2[1],
+    'g3':g2[2],
+    'g4':g2[3],
+    'g5':g2[4],
+    'g6':g2[5],
     }
-    return render(request,'admin.html',context)
+    return context
+
+def admin_login(request):
+    return render(request,'admin_login.html',{})
+
+def adminlogg(request):
+    if request.method=="POST":
+        data=request.POST
+        email=data['email']
+        passw=data['pass']
+
+        obj=adminlog.objects.all()
+        print(obj[0].password)
+        print("email data: ",passw, email)
+        if len(obj):
+            for i in obj:
+                print("email table: ",i.email_id, i.password)
+                if i.email_id==email:
+                    if i.password==passw:
+                        return redirect('/')
+        else:
+            return render(request,'admin_login.html',{})
+    return render(request,'admin_login.html',{})

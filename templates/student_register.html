@@ -1,55 +1,73 @@
+{% load static from staticfiles %}
 <!doctype html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Rajdhani" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
+    <style media="screen">
+      form input{
+        background: transparent;
+      }
+      form div{
+        background: transparent;
+      }
+      .heading{
+        font-family: 'Rajdhani', sans-serif;
+        color:#8347f7;
+        font-size: 25px;
+        margin-bottom: 12%;
+      }
+    </style>
+    <title>User Registration</title>
   </head>
-  <body>
+  <body class="bg-dark">
 
 
-    <div class="login col-xs-18">
+    <div class="login container-fluid col-xs-18">
 			<!-- Modal -->
+            <div class="col-xs-18" style="text-align:center;">
+
+              <img src="{% static 'm.png'%}" style="height:80px; margin-top:10%; margin-bottom:5%;"alt="">
+              <p class="heading">Smart Maintenance</p>
+              <p class="lead text-light" style="margin-top:-4%;">Registration</p>
+            </div>
 
 
-							  <div class="login_name">
-                  <h2 style="color: green;">{{ display }}</h2>
-                  <h4>Click <a href="/login/">here</a> to login</h4>
-							  </div>
+							
 							<form  signin_form method="post" action="/student_register/">
                 {% csrf_token %}
-                <div class="form-group">
-                    <input type="text" class="form-control" name="first_name" id="fname" aria-describedby="First_Name" placeholder="First Name">
+                <div class="form-group" style="background:transparent;" style="background:transparent;">
+                    <input required="true" style="background:transparent; border:1px solid #007bff; color:white; font-size:15px;" type="text" class="form-control" name="first_name" id="fname" aria-describedby="First_Name" placeholder="First Name" style="background:transparent;">
                   </div>
-                  <div class="form-group">
-                    <input type="text" class="form-control" name="last_name" id="lname" aria-describedby="Last_Name" placeholder="Last Name">
+                  <div class="form-group" style="background:transparent;">
+                    <input required="true" style="background:transparent; border:1px solid #007bff; color:white; font-size:15px;" type="text" class="form-control" name="last_name" id="lname" aria-describedby="Last_Name" placeholder="Last Name">
                   </div>
-                  <div class="form-group">
-                    <input type="text" class="form-control" name="institute_name" id="inst" aria-describedby="Institute_name" placeholder="Institute name">
+                  <div class="form-group" style="background:transparent;">
+                    <input required="true" style="background:transparent; border:1px solid #007bff; color:white; font-size:15px;" type="text" class="form-control" name="institute_name" id="inst" aria-describedby="Institute_name" placeholder="Institute name">
                   </div>
-                  <div class="form-group">
-                    <input type="text" class="form-control" name="department" id="dept" aria-describedby="Department" placeholder="Department name">
+                  <div class="form-group" style="background:transparent;">
+                    <input required="true" style="background:transparent; border:1px solid #007bff; color:white; font-size:15px;" type="text" class="form-control" name="department" id="dept" aria-describedby="Department" placeholder="Department name">
                   </div>
-    
-                <div class="form-group">
-                    <input type="email" class="form-control" name="email" id="signin_email" aria-describedby="emailHelp" placeholder="Email">
+
+                <div class="form-group" style="background:transparent;">
+                    <input required="true" style="background:transparent; border:1px solid #007bff; color:white; font-size:15px;" type="email" class="form-control" name="email" id="signin_email" aria-describedby="emailHelp" placeholder="Email">
                 </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" name="password" id="signin_pass" placeholder="Password">
+                <div class="form-group" style="background:transparent;">
+                    <input required="true" style="background:transparent; border:1px solid #007bff; color:white; font-size:15px;" type="password" class="form-control" name="password" id="signin_pass" placeholder="Password">
                 </div>
-							
-                <div class="form-group" style="padding-bottom:3%;">
-                    <input type="submit" name="register" class="btn btn-danger " value="Submit">
+
+                <div class="form-group" style="padding-bottom:1%;padding-top:9%;">
+                    <input  type="submit" id="buttons" name="register" class="btn btn-primary btn-block " value="Register">
                 </div>
               </form>
 
 						</div>
-          
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

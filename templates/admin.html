@@ -76,15 +76,15 @@
               <hr style="background-color:#dc3545;">
               <div class="row col-md-12 charts" style="text-align:center;">
                 <div class="col-md-4 charts">
-                  <a href="#"><img src="{%static 'pie-chart.png' %}" alt=""><br>
+                  <a href="/problem"><img src="{%static 'pie-chart.png' %}" alt=""><br>
                   Problems</a>
                 </div>
                 <div class="col-md-4">
-                  <a href="#"><img src="{%static 'bars-chart.png' %}" alt=""><br>
+                  <a href="/complete_incomplete"><img src="{%static 'bars-chart.png' %}" alt=""><br>
                   Solved vs Pending</a>
                 </div>
                 <div class="col-md-4">
-                  <a href="#"><img src="{%static 'line-graph.png' %}" alt=""><br>
+                  <a href="/monthly_summary"><img src="{%static 'line-graph.png' %}" alt=""><br>
                   Monthy graph</a>
                 </div>
               </div>
@@ -93,100 +93,24 @@
               <h5><strong><i class="fas fa-user-cog"> </i> Manage Users</strong></h5>
               <hr style="background-color:#ffc107;">
               <div class="row col-md-12 chart" style="text-align:center;">
-                <div class="col-md-4 chart">
+                <div class="col-md-3 chart">
                   <a href="/edit"><img src="{%static 'management.png' %}" alt=""><br>
                   Edit User info</a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <a href="/block"><img src="{%static 'user.png' %}" alt=""><br>
                   Block Users</a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <a href="/rem"><img src="{%static 'remove-friend.png' %}" alt=""><br>
                   Remove users</a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <a href="/unblock"><img src="{%static 'remove-friend.png' %}" alt=""><br>
                   Unblock users</a>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-12 container" style="margin-top:2%;">
-            <div class="container-fluid border border-info bg-light rounded" id="piechart">
-
-            </div>
-            <div class="container-fluid border border-info bg-light rounded" id="piechart2">
-
-            </div>
-            <div class="container-fluid border border-info bg-light rounded" id="curve_chart">
-
-            </div>
-            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-              <script type="text/javascript">
-                google.charts.load("current", {packages:["corechart"]});
-                google.charts.setOnLoadCallback(drawChart);
-                function drawChart() {
-                  var data = google.visualization.arrayToDataTable([
-                    ['Problems', ''],
-                    ['Civil', {{pothole}}],
-                    ['Garbage',{{garbage}}]
-                  ]);
-
-                  var options = {
-                    title: 'Problems',
-                    is3D: true,
-                  };
-
-                  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-                  chart.draw(data, { backgroundColor: { fill: "transparent" } }, options);
-                }
-              </script>
-              <script type="text/javascript">
-                google.charts.load("current", {packages:["corechart"]});
-                google.charts.setOnLoadCallback(drawChart);
-                function drawChart() {
-                  var data = google.visualization.arrayToDataTable([
-                    ['Problems', ''],
-                    ['Civil solved', {{complete_pothole}}],
-                    ['Garbage solved',{{complete_garbage}}],
-                    ['Civil pending', {{incomplete_pothole}}],
-                    ['Garbage pending',{{incomplete_garbage}}]
-                  ]);
-
-                  var options = {
-                    title: 'Problems',
-                    is3D: true,
-                  };
-
-                  var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
-                  chart.draw(data, { backgroundColor: { fill: "transparent" } }, options);
-                }
-              </script>
-              <script type="text/javascript">
-                google.charts.load('current', {'packages':['corechart']});
-                google.charts.setOnLoadCallback(drawChart);
-
-                function drawChart() {
-                  var data = google.visualization.arrayToDataTable([
-                    ['Day', 'Civil', 'Garbage'],
-                    {% for (i,j,k) in rangepdgd %}
-                      ['{{i}}',{{j}},{{k}}],
-                    {% endfor %}
-                      ['{{0}}',{{0}},{{0}}]
-                  ]);
-
-                  var options = {
-                    title: 'Monthly summary',
-                    curveType: 'function',
-                    legend: { position: 'bottom' }
-                  };
-
-                  var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-                  chart.draw(data,{ backgroundColor: { fill: "transparent" } }, options);
-                }
-            </script>
           </div>
       </div>
     </section>
